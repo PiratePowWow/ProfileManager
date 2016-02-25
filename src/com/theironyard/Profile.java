@@ -10,7 +10,7 @@ public class Profile {
     String avatar;
     String dateCreated;
     String dateModified;
-    ArrayList<Game> games;
+    ArrayList<Game> games = new ArrayList<>();
 
     public Profile(String handle, String avatar, String dateCreated) {
         this.handle = handle;

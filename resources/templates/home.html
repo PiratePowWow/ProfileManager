@@ -1,7 +1,17 @@
 <html>
+<header>
+    {{#userName}}
+    Welcome {{userName}}!
+    <form action="/modifyUser" method="post">
+        <button type="submit">Modify Your Account</button>
+    </form>
+    {{/userName}}
+</header>
 <body>
 {{^userName}}
 <form action="/login" method="post">
+    <input type="text" placeholder="Enter Your User Name" name="userName">
+    <input type="text" placeholder="Enter Your Password" name="password">
     <button type="submit">Login</button>
 </form>
 <form action="/?createUser=null" method="get">
@@ -12,19 +22,19 @@
 <form action="/logout" method="post">
     <button type="submit">Logout</button>
 </form>
-<ol>
-    {{#profiles}}
-    {{.}}<br>
-    {{/profiles}}
-</ol>
 {{/userName}}
+{{#userView}}
+{{.}}<br>
+{{/userView}}
 {{#previous}}
-<form action="/?userIndex={{previous}}" method="get">
+<form action="/" method="get">
+    <input hidden name="userIndex" value="{{previous}}">
     <button type="submit">Previous</button>
 </form>
 {{/previous}}
 {{#next}}
-<form action="/?userIndex={{next}}" method="get">
+<form action="/" method="get">
+    <input hidden name="userIndex" value="{{next}}">
     <button type="submit">Next</button>
 </form>
 {{/next}}
