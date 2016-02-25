@@ -1,6 +1,7 @@
 package com.theironyard;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by PiratePowWow on 2/25/16.
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 public class User {
     String name;
     String password;
-    ArrayList<Profile> profiles;
+    HashMap<String,Profile> profiles = new HashMap<>();
 
     public User(String name, String password) {
         this.name = name;
@@ -31,11 +32,11 @@ public class User {
         this.password = password;
     }
 
-    public ArrayList<Profile> getProfiles() {
+    public HashMap<String,Profile> getProfiles() {
         return profiles;
     }
 
-    public void setProfiles(ArrayList<Profile> profiles) {
+    public void setProfiles(HashMap<String,Profile> profiles) {
         this.profiles = profiles;
     }
 }
