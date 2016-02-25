@@ -1,0 +1,40 @@
+<html>
+<body>
+{{^userName}}
+<form action="/login" method="post">
+    <button type="submit">Login</button>
+</form>
+<form action="/?createUser=null" method="get">
+    <button type="submit">New User</button>
+</form>
+{{/userName}}
+{{#userName}}
+<form action="/logout" method="post">
+    <button type="submit">Logout</button>
+</form>
+<ol>
+    {{#profiles}}
+    {{.}}<br>
+    {{/profiles}}
+</ol>
+{{/userName}}
+{{#previous}}
+<form action="/?userIndex={{previous}}" method="get">
+    <button type="submit">Previous</button>
+</form>
+{{/previous}}
+{{#next}}
+<form action="/?userIndex={{next}}" method="get">
+    <button type="submit">Next</button>
+</form>
+{{/next}}
+{{#newUser}}
+<form action="/create-user" method="post">
+    <input type="text" placeholder="Enter your new username" name="userName">
+    <input type="text" placeholder="Enter your desired password" name="password">
+    <button type="submit">Create</button>
+</form>
+{{/newUser}}
+</body>
+</body>
+</html>

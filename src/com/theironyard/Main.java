@@ -51,7 +51,14 @@ public class Main {
                 "/",
                 ((request, response) -> {
                     HashMap m = new HashMap();
+                    int userIndexNum = 0;
+                    String userIndex = request.queryParams("userIndex");
+                    if (userIndex!= null){
+                        userIndexNum = Integer.valueOf(userIndex);
+                    }
 
+                    m.put("previous", (userIndexNum -1 >= 0)? userIndexNum -1:null);
+                    m.put("next", (userIndexNum + 1 < allUsers.size())? userIndexNum+1:null);
                     return new ModelAndView(m, "home.html");
                 }),
                 new MustacheTemplateEngine()
