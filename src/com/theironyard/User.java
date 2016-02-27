@@ -6,7 +6,7 @@ import java.util.HashMap;
 /**
  * Created by PiratePowWow on 2/25/16.
  */
-public class User {
+public class User implements Comparable {
     String name;
     String password;
     HashMap<String,Profile> profiles = new HashMap<>();
@@ -14,6 +14,21 @@ public class User {
     public User(String name, String password) {
         this.name = name;
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", profiles=" + profiles +
+                '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        User u = (User) o;
+        return name.compareTo(u.name);
     }
 
     public String getName() {
@@ -39,4 +54,5 @@ public class User {
     public void setProfiles(HashMap<String,Profile> profiles) {
         this.profiles = profiles;
     }
+
 }

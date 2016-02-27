@@ -2,9 +2,26 @@
 <header>
     {{#userName}}
     Welcome {{userName}}!
+
+    {{#modifyProfile}}
+    <form action="/" method="get">
+        <input hidden name="modifyProfile" value="true">
+        <button type="submit">Modify Profile</button>
+    </form>
+    {{/modifyProfile}}
+    {{#modifyUser}}
     <form action="/modifyUser" method="post">
+        <input type="text" placeholder="User Name" name="userName">
+        <input type="text" placeholder="Password" name="password">
+        <button type="submit">Submit Changes</button>
+    </form>
+    {{/modifyUser}}
+    {{#modifyAccountButton}}
+    <form action="/" method="get">
+        <input hidden name="modifyUser" value="true">
         <button type="submit">Modify Your Account</button>
     </form>
+    {{/modifyAccountButton}}
     {{/userName}}
 </header>
 <body>
@@ -24,7 +41,11 @@
 </form>
 {{/userName}}
 {{#userView}}
-{{.}}<br>
+<ol>
+    {{#profiles}}
+    <li>{{handle}}</li>
+    {{/profiles}}
+</ol>
 {{/userView}}
 {{#previous}}
 <form action="/" method="get">

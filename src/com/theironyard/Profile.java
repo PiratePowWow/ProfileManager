@@ -19,6 +19,11 @@ public class Profile {
         this.dateModified = dateCreated;
     }
 
+    @Override
+    public String toString() {
+        return handle +" "+ avatar +" "+dateCreated+" "+dateModified;
+    }
+
     public String getHandle() {
         return handle;
     }

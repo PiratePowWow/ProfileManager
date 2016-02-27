@@ -6,12 +6,15 @@ import spark.Spark;
 import spark.template.mustache.MustacheTemplateEngine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class Main {
     public static HashMap<String, Game> allGames = new HashMap<>();
     //public static ArrayList<Profile> allProfiles = new ArrayList<>();
     public static HashMap<String, User> allUsersMap = new HashMap<>();
+    public static ArrayList<User> allUsers = new ArrayList<>();
+
 
 
 
@@ -35,10 +38,10 @@ public class Main {
         allUsersMap.get("James").getProfiles().get("dingleberry").getGames().add(allGames.get("Metal Gear Solid"));
         allUsersMap.get("Martha").getProfiles().get("sweetdick").getGames().add(allGames.get("Metal Gear Solid"));
         allUsersMap.get("Martha").getProfiles().get("sweetTits").getGames().add(allGames.get("Super Mario"));
-        ArrayList<User> allUsers = new ArrayList<>();
         for(User user: allUsersMap.values()){
             allUsers.add(user);
         }
+        Collections.sort(allUsers);
 
 
 
@@ -49,15 +52,37 @@ public class Main {
                     User user = getUserFromSession(request.session());
                     HashMap m = new HashMap();
                     int userIndexNum = 0;
+                    boolean modifyAccountButton = false;
+                    boolean modifyUser = false;
+                    boolean modifyProfile = false;
+                    String modifyUserStr = request.queryParams("modifyUser");
+                    if (modifyUserStr != null){
+                        modifyUser = Boolean.valueOf(modifyUserStr);
+                    }
                     String userIndex = request.queryParams("userIndex");
                     if (userIndex!= null){
                         userIndexNum = Integer.valueOf(userIndex);
                     }
+                    if (user!=null){
+                        modifyAccountButton = true;
+                    }
+                    if (modifyUser){
+                        modifyAccountButton = false;
+                    }
 
                     User userView = allUsers.get(userIndexNum);
                     if(user!=null) {
+                        if (userView.getName().equals(user.getName())) {
+                            modifyProfile = true;
+                        }
+                    }
+                    if(user!=null) {
                         m.put("userName", user.getName());
                     }
+                    m.put("modifyAccountButton", modifyAccountButton);
+                    m.put("profiles", userView.getProfiles());
+                    m.put("modifyProfile", modifyProfile);
+                    m.put("modifyUser", modifyUser);
                     m.put("userView", userView);
                     m.put("previous", (userIndexNum -1 >= 0)? userIndexNum -1:null);
                     m.put("next", (userIndexNum + 1 < allUsers.size())? userIndexNum+1:null);
@@ -71,9 +96,15 @@ public class Main {
                         String userName = request.queryParams("userName");
                         String password = request.queryParams("password");
                         if (userName != null && password != null) {
-                            if (allUsersMap.get(userName).getPassword().equals(password)) {
-                                Session session = request.session();
-                                session.attribute("userName", allUsersMap.get(userName));
+                            if (allUsersMap.get(userName)!=null) {
+                                if (allUsersMap.get(userName).getPassword().equals(password)) {
+                                    Session session = request.session();
+                                    session.attribute("userName", allUsersMap.get(userName));
+                                } else {
+                                    Spark.halt(401, "User not authenticated");
+                                }
+                            }else{
+                                Spark.halt(400, "User not found");
                             }
                         }
                         response.redirect("/");
@@ -89,30 +120,32 @@ public class Main {
                     return "";
                 })
         );
-        Spark.put(
+        Spark.post(
                 "/modifyUser",
                 ((request, response) -> {
-
+                    User user = getUserFromSession(request.session());
+                    String userName = request.queryParams("userName");
+                    String password = request.queryParams("password");
+                    if (!userName.isEmpty()){
+                        allUsersMap.remove(user.getName());
+                        user.setName(userName);
+                        allUsersMap.put(user.getName(), user);
+                        allUsers = new ArrayList<User>();
+                        for(User each:allUsersMap.values()){
+                            allUsers.add(each);
+                        }
+                        Collections.sort(allUsers);
+                        Session session = request.session();
+                        session.attribute("userName", allUsersMap.get(userName));
+                    }
+                    if (!password.isEmpty()){
+                        User newPass = getUserFromSession(request.session());
+                        newPass.setPassword(password);
+                    }
                     response.redirect("/");
                     return "";
                 })
         );
-
-
-
-
-//        Spark.delete(
-//                "/",
-//                ((request, response) -> {
-//
-//
-//                    return "";
-//                }),
-//                new MustacheTemplateEngine()
-//        );
-
-
-
     }
     public static User getUserFromSession(Session session){
         User user = session.attribute("userName");

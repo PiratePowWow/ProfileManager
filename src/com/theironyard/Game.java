@@ -12,6 +12,14 @@ public class Game {
         this.releaseDate = releaseDate;
     }
 
+    @Override
+    public String toString() {
+        return "Game{" +
+                "title='" + title + '\'' +
+                ", releaseDate='" + releaseDate + '\'' +
+                '}';
+    }
+
     public String getTitle() {
         return title;
     }
