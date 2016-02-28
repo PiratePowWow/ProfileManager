@@ -15,10 +15,8 @@ public class Main {
     public static HashMap<String, User> allUsersMap = new HashMap<>();
     public static ArrayList<User> allUsers = new ArrayList<>();
 
-
-
-
     public static void main(String[] args) {
+        Spark.staticFileLocation("/public");
         //add test User, Game, and Profile objects
         allUsersMap.put("Jimmy",new User("Jimmy", "Pee"));
         allUsersMap.put("James",new User("James", "Jones"));
@@ -26,18 +24,22 @@ public class Main {
         allGames.put("Batman",new Game("Batman", "2010"));
         allGames.put("Metal Gear Solid",new Game("Metal Gear Solid", "2012"));
         allGames.put("Super Mario",new Game("Super Mario", "1985"));
-        allUsersMap.get("Jimmy").getProfiles().put("saltynuts",new Profile("saltynuts", "image1", "2016"));
-        allUsersMap.get("Jimmy").getProfiles().put("scarynuts",new Profile("scarynuts", "image2", "2016"));
-        allUsersMap.get("James").getProfiles().put("dominator",new Profile("dominator", "image3", "2016"));
-        allUsersMap.get("James").getProfiles().put("dingleberry",new Profile("dingleberry", "image4", "2016"));
-        allUsersMap.get("Martha").getProfiles().put("sweetdick",new Profile("sweetdick", "image5", "2016"));
-        allUsersMap.get("Martha").getProfiles().put("sweetTits",new Profile("sweetTits", "image6", "2016"));
-        allUsersMap.get("Jimmy").getProfiles().get("saltynuts").getGames().add(allGames.get("Batman"));
-        allUsersMap.get("Jimmy").getProfiles().get("scarynuts").getGames().add(allGames.get("Super Mario"));
-        allUsersMap.get("James").getProfiles().get("dominator").getGames().add(allGames.get("Batman"));
-        allUsersMap.get("James").getProfiles().get("dingleberry").getGames().add(allGames.get("Metal Gear Solid"));
-        allUsersMap.get("Martha").getProfiles().get("sweetdick").getGames().add(allGames.get("Metal Gear Solid"));
-        allUsersMap.get("Martha").getProfiles().get("sweetTits").getGames().add(allGames.get("Super Mario"));
+        allUsersMap.get("Jimmy").getProfiles().add(new Profile("saltynuts", "image1", "2016"));
+        allUsersMap.get("Jimmy").getProfiles().add(new Profile("scarynuts", "image2", "2016"));
+        allUsersMap.get("James").getProfiles().add(new Profile("dominator", "image3", "2016"));
+        allUsersMap.get("James").getProfiles().add(new Profile("dingleberry", "image4", "2016"));
+        allUsersMap.get("Martha").getProfiles().add(new Profile("sweetdick", "image5", "2016"));
+        allUsersMap.get("Martha").getProfiles().add(new Profile("sweetTits", "image6", "2016"));
+        allUsersMap.get("Jimmy").getProfiles().get(0).getGames().add(allGames.get("Batman"));
+        allUsersMap.get("Jimmy").getProfiles().get(0).getGames().add(allGames.get("Super Mario"));
+        allUsersMap.get("Jimmy").getProfiles().get(1).getGames().add(allGames.get("Super Mario"));
+        allUsersMap.get("Jimmy").getProfiles().get(1).getGames().add(allGames.get("Metal Gear Solid"));
+        allUsersMap.get("James").getProfiles().get(0).getGames().add(allGames.get("Batman"));
+        allUsersMap.get("James").getProfiles().get(0).getGames().add(allGames.get("Super Mario"));
+        allUsersMap.get("James").getProfiles().get(1).getGames().add(allGames.get("Metal Gear Solid"));
+        allUsersMap.get("James").getProfiles().get(1).getGames().add(allGames.get("Batman"));
+        allUsersMap.get("Martha").getProfiles().get(0).getGames().add(allGames.get("Metal Gear Solid"));
+        allUsersMap.get("Martha").getProfiles().get(1).getGames().add(allGames.get("Super Mario"));
         for(User user: allUsersMap.values()){
             allUsers.add(user);
         }
@@ -79,6 +81,8 @@ public class Main {
                     if(user!=null) {
                         m.put("userName", user.getName());
                     }
+                    //String profiles = "<ul> {{#.}} <li>name:{{handle}} and type:{{avatar}} </li> {{/.}} </ul>";
+
                     m.put("modifyAccountButton", modifyAccountButton);
                     m.put("profiles", userView.getProfiles());
                     m.put("modifyProfile", modifyProfile);

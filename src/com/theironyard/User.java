@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class User implements Comparable {
     String name;
     String password;
-    HashMap<String,Profile> profiles = new HashMap<>();
+    ArrayList<Profile> profiles = new ArrayList<>();
 
     public User(String name, String password) {
         this.name = name;
@@ -47,11 +47,11 @@ public class User implements Comparable {
         this.password = password;
     }
 
-    public HashMap<String,Profile> getProfiles() {
+    public ArrayList<Profile> getProfiles() {
         return profiles;
     }
 
-    public void setProfiles(HashMap<String,Profile> profiles) {
+    public void setProfiles(ArrayList<Profile> profiles) {
         this.profiles = profiles;
     }
 
