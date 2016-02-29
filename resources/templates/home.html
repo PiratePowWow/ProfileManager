@@ -1,92 +1,100 @@
 <html>
 <head><link href="style.css" type="text/css" rel="stylesheet"/><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"></head>
 <header>
-    {{#userName}}
-    Welcome {{userName}}!
-
-    {{#modifyProfile}}
-    <form action="/" method="get">
-        <input hidden name="modifyProfile" value="true">
-        <button type="submit">Modify Profile</button>
-    </form>
-    {{/modifyProfile}}
-    {{#modifyUser}}
-    <form action="/modifyUser" method="post">
-        <input type="text" placeholder="User Name" name="userName">
-        <input type="text" placeholder="Password" name="password">
-        <button type="submit">Submit Changes</button>
-    </form>
-    {{/modifyUser}}
-    {{#modifyAccountButton}}
-    <form action="/" method="get">
-        <input hidden name="modifyUser" value="true">
-        <button type="submit">Modify Your Account</button>
-    </form>
-    {{/modifyAccountButton}}
-    {{/userName}}
+    <div class="header-buttons pull-right">
+        {{#modifyUser}}
+            <form action="/modifyUser" method="post" class="form-inline header-button">
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="User Name" name="userName">
+                    <input class="form-control" type="text" placeholder="Password" name="password">
+                </div>
+                <button type="submit" class="btn btn-default">Submit Changes</button>
+            </form>
+            <form action="/logout" method="post" class="form-inline header-button">
+                <button type="submit" class="btn btn-default">Logout</button>
+            </form>
+        {{/modifyUser}}
+        {{#modifyAccountButton}}
+        <form action="/" method="get" class="form-inline header-button">
+            <input hidden name="modifyUser" value="true">
+            <button type="submit" class="btn btn-default">Modify Your Account</button>
+        </form>
+        <form action="/logout" method="post" class="form-inline header-button">
+            <button type="submit" class="btn btn-default">Logout</button>
+        </form>
+        {{/modifyAccountButton}}
+    </div>
 </header>
 <body>
-{{^userName}}
-<form action="/login" method="post">
-    <input type="text" placeholder="Enter Your User Name" name="userName">
-    <input type="text" placeholder="Enter Your Password" name="password">
-    <button type="submit">Login</button>
-</form>
-<form action="/?createUser=null" method="get">
-    <button type="submit">New User</button>
-</form>
-{{/userName}}
 {{#userName}}
-<form action="/logout" method="post">
-    <button type="submit">Logout</button>
-</form>
+<h3 align="center">Welcome {{userName}}!</h3>
 {{/userName}}
+{{^userName}}
+<table align="right" valign="middle">
+    <tr valign="middle">
+        <td valign="middle">
+            <form action="/login" method="post" class="form-inline" valign="middle">
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="Enter Your User Name" name="userName">
+                    <input class="form-control" type="text" placeholder="Enter Your Password" name="password">
+                </div>
+                <button type="submit" class="btn btn-default">Login</button>
+            </form>
+        </td>
+        <td valign="middle">
+<form action="/?createUser=null" method="get" class="form-inline" valign="middle">
+    <button type="submit" class="btn btn-default">New User</button>
+</form>
+        </td>
+    </tr>
+</table>
+{{/userName}}
+
 {{#userView}}
-<!--<ol>-->
-<!--{{#profiles}}-->
-<!--<li>{{handle}}</li><ol>-->
-    <!--{{#games}}-->
-    <!--<li>{{title}}</li>-->
-    <!--{{/games}}-->
-<!--</ol>-->
-<!--{{/profiles}}-->
-<!--</ol>-->
-
-
-
-<table class="table table-hover table-striped">
+<table class="table table-hover table-striped table-condensed table-bordered">
     <caption class="caption">PROFILES FOR {{#userView}}{{name}}{{/userView}}</caption>
+    <tr>
+        <th>Handle</th><th>Avatar</th><th>Date Last Modified</th><th>Date Created</th><th>Games Played</th>
+    </tr>
     {{#profiles}}
     <tr>
-        <td>{{handle}}</td><td><table class="table table-hover table-striped">{{#games}}<tr><td>{{title}}</td></tr>{{/games}}</table></td>
+        <td valign="middle" class="td">{{handle}}
+            {{#modifyProfile}}
+            <form action="/" method="get" class="form-inline">
+                <input hidden name="editProfile" value="{{handle}}">
+                <button type="submit" class="btn btn-default">Edit</button>
+            </form>
+            {{/modifyProfile}}
+        </td><td class="td">{{avatar}}</td><td>{{dateModified}}</td><td>{{dateCreated}}</td><td><table class="table table-condensed table-bordered table-hover table-striped">{{#games}}<tr><td class="td">{{title}} - {{releaseDate}}</td></tr>{{/games}}</table></td>
     </tr>
     {{/profiles}}
 </table>
-
-
-
-
-
 {{/userView}}
-{{#previous}}
-<form action="/" method="get">
-    <input hidden name="userIndex" value="{{previous}}">
-    <button type="submit">Previous</button>
-</form>
-{{/previous}}
-{{#next}}
-<form action="/" method="get">
-    <input hidden name="userIndex" value="{{next}}">
-    <button type="submit">Next</button>
-</form>
-{{/next}}
+<table>
+    <tr>
+        <td width="100">{{#previous}}
+            <form action="/" method="get" class="form-inline">
+                <input hidden name="userIndex" value="{{previous}}">
+                <button type="submit" class="btn btn-default">Previous</button>
+            </form>
+            {{/previous}}
+        </td>
+        <td width="100">
+            {{#next}}
+            <form action="/" method="get" class="form-inline">
+                <input hidden name="userIndex" value="{{next}}">
+                <button type="submit" class="btn btn-default">Next</button>
+            </form>
+            {{/next}}
+        </td>
+    </tr>
+</table>
 {{#newUser}}
-<form action="/create-user" method="post">
+<form action="/create-user" method="post" class="form-inline">
     <input type="text" placeholder="Enter your new username" name="userName">
     <input type="text" placeholder="Enter your desired password" name="password">
-    <button type="submit">Create</button>
+    <button type="submit" class="btn btn-default">Create</button>
 </form>
 {{/newUser}}
-</body>
 </body>
 </html>

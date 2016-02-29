@@ -24,12 +24,12 @@ public class Main {
         allGames.put("Batman",new Game("Batman", "2010"));
         allGames.put("Metal Gear Solid",new Game("Metal Gear Solid", "2012"));
         allGames.put("Super Mario",new Game("Super Mario", "1985"));
-        allUsersMap.get("Jimmy").getProfiles().add(new Profile("saltynuts", "image1", "2016"));
-        allUsersMap.get("Jimmy").getProfiles().add(new Profile("scarynuts", "image2", "2016"));
+        allUsersMap.get("Jimmy").getProfiles().add(new Profile("salty", "image1", "2016"));
+        allUsersMap.get("Jimmy").getProfiles().add(new Profile("scary", "image2", "2016"));
         allUsersMap.get("James").getProfiles().add(new Profile("dominator", "image3", "2016"));
-        allUsersMap.get("James").getProfiles().add(new Profile("dingleberry", "image4", "2016"));
-        allUsersMap.get("Martha").getProfiles().add(new Profile("sweetdick", "image5", "2016"));
-        allUsersMap.get("Martha").getProfiles().add(new Profile("sweetTits", "image6", "2016"));
+        allUsersMap.get("James").getProfiles().add(new Profile("twinkletoes", "image4", "2016"));
+        allUsersMap.get("Martha").getProfiles().add(new Profile("sweetie", "image5", "2016"));
+        allUsersMap.get("Martha").getProfiles().add(new Profile("saucy", "image6", "2016"));
         allUsersMap.get("Jimmy").getProfiles().get(0).getGames().add(allGames.get("Batman"));
         allUsersMap.get("Jimmy").getProfiles().get(0).getGames().add(allGames.get("Super Mario"));
         allUsersMap.get("Jimmy").getProfiles().get(1).getGames().add(allGames.get("Super Mario"));
@@ -45,8 +45,6 @@ public class Main {
         }
         Collections.sort(allUsers);
 
-
-
         Spark.init();
         Spark.get(
                 "/",
@@ -57,6 +55,11 @@ public class Main {
                     boolean modifyAccountButton = false;
                     boolean modifyUser = false;
                     boolean modifyProfile = false;
+                    boolean editProfile = false;
+                    String editProfileStr = request.queryParams("editProfile");
+                    if (editProfileStr!=null){
+                        editProfile = true;
+                    }
                     String modifyUserStr = request.queryParams("modifyUser");
                     if (modifyUserStr != null){
                         modifyUser = Boolean.valueOf(modifyUserStr);
@@ -71,18 +74,17 @@ public class Main {
                     if (modifyUser){
                         modifyAccountButton = false;
                     }
-
                     User userView = allUsers.get(userIndexNum);
                     if(user!=null) {
                         if (userView.getName().equals(user.getName())) {
                             modifyProfile = true;
                         }
                     }
+                    //userView.profi
                     if(user!=null) {
                         m.put("userName", user.getName());
                     }
-                    //String profiles = "<ul> {{#.}} <li>name:{{handle}} and type:{{avatar}} </li> {{/.}} </ul>";
-
+                    m.put("editProfile", editProfile);
                     m.put("modifyAccountButton", modifyAccountButton);
                     m.put("profiles", userView.getProfiles());
                     m.put("modifyProfile", modifyProfile);

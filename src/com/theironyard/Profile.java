@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by PiratePowWow on 2/25/16.
  */
-public class Profile {
+public class Profile implements Comparable {
     String handle;
     String avatar;
     String dateCreated;
@@ -62,5 +62,11 @@ public class Profile {
 
     public void setGames(ArrayList<Game> games) {
         this.games = games;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Profile p = (Profile) o;
+        return handle.compareTo(p.handle);
     }
 }

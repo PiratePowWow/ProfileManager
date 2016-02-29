@@ -3,7 +3,7 @@ package com.theironyard;
 /**
  * Created by PiratePowWow on 2/25/16.
  */
-public class Game {
+public class Game implements Comparable{
     String title;
     String releaseDate;
 
@@ -34,5 +34,11 @@ public class Game {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Game g = (Game) o;
+        return title.compareTo(g.title);
     }
 }

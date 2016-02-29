@@ -1,3 +1,25 @@
 .caption {
     text-transform: uppercase;
+    font-size: x-large;
+}
+
+.td{
+    text-transform: uppercase;
+}
+header {
+    overflow: hidden;
+}
+.header-buttons {
+    overflow: hidden;
+}
+.header-buttons:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.header-button {
+    display: inline-block;
+}
+.btn {
+    margin: 0 5px;
 }
