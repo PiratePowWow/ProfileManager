@@ -48,8 +48,15 @@ public class MainTest {
     }
     @Test
     public void testGame() throws SQLException {
-        Connection conn;
+        Connection conn = startConnection();
+        Main.insertUser(conn, "James", "");
+        User user = Main.selectUser(conn, "James");
+        Main.insertProfile(conn, user, "handle", "avatar", "dateCreated", "dateModified");
+        ArrayList<Profile> profiles = Main.selectProfiles(conn, user.id);
+        Main.insertGame(conn, profiles.get(0), "title", "releaseDate");
+        Main.insertGame(conn, profiles.get(0), "titles", "releaseDates");
+        ArrayList<Game> games = Main.selectGames(conn, profiles.get(0).id);
+        endConnection(conn);
+        assertTrue(games.size()==2);
     }
-
-
 }

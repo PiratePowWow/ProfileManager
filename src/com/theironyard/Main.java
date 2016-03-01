@@ -12,10 +12,8 @@ import java.util.HashMap;
 
 public class Main {
     public static HashMap<String, Game> allGames = new HashMap<>();
-    //public static ArrayList<Profile> allProfiles = new ArrayList<>();
     public static HashMap<String, User> allUsersMap = new HashMap<>();
     public static ArrayList<User> allUsers = new ArrayList<>();
-
     public static Connection startConnection() throws SQLException {
         Connection conn = DriverManager.getConnection("jdbc:h2:./main");
         return conn;
@@ -23,7 +21,6 @@ public class Main {
     public void endConnection(Connection conn) throws SQLException {
         conn.close();
     }
-
     public static void createTables(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
         stmt.execute("CREATE TABLE IF NOT EXISTS users (id IDENTITY , name VARCHAR UNIQUE , password VARCHAR )");
@@ -142,15 +139,15 @@ public class Main {
         allUsersMap.put("Jimmy",new User("Jimmy", "Pee"));
         allUsersMap.put("James",new User("James", "Jones"));
         allUsersMap.put("Martha",new User("Martha", "Stewart"));
-        allGames.put("Batman",new Game("Batman", "2010"));
-        allGames.put("Metal Gear Solid",new Game("Metal Gear Solid", "2012"));
-        allGames.put("Super Mario",new Game("Super Mario", "1985"));
-        allUsersMap.get("Jimmy").getProfiles().add(new Profile("salty", "image1", "2016"));
-        allUsersMap.get("Jimmy").getProfiles().add(new Profile("scary", "image2", "2016"));
-        allUsersMap.get("James").getProfiles().add(new Profile("dominator", "image3", "2016"));
-        allUsersMap.get("James").getProfiles().add(new Profile("twinkletoes", "image4", "2016"));
-        allUsersMap.get("Martha").getProfiles().add(new Profile("sweetie", "image5", "2016"));
-        allUsersMap.get("Martha").getProfiles().add(new Profile("saucy", "image6", "2016"));
+        allGames.put("Batman",new Game(1,"Batman", "2010"));
+        allGames.put("Metal Gear Solid",new Game(2,"Metal Gear Solid", "2012"));
+        allGames.put("Super Mario",new Game(3,"Super Mario", "1985"));
+        allUsersMap.get("Jimmy").getProfiles().add(new Profile(1,"salty", "image1", "2016", "2017"));
+        allUsersMap.get("Jimmy").getProfiles().add(new Profile(2,"scary", "image2", "2016", "2017"));
+        allUsersMap.get("James").getProfiles().add(new Profile(3,"dominator", "image3", "2016", "2017"));
+        allUsersMap.get("James").getProfiles().add(new Profile(4,"twinkletoes", "image4", "2016", "2017"));
+        allUsersMap.get("Martha").getProfiles().add(new Profile(5,"sweetie", "image5", "2016", "2017"));
+        allUsersMap.get("Martha").getProfiles().add(new Profile(6,"saucy", "image6", "2016", "2017"));
         allUsersMap.get("Jimmy").getProfiles().get(0).getGames().add(allGames.get("Batman"));
         allUsersMap.get("Jimmy").getProfiles().get(0).getGames().add(allGames.get("Super Mario"));
         allUsersMap.get("Jimmy").getProfiles().get(1).getGames().add(allGames.get("Super Mario"));

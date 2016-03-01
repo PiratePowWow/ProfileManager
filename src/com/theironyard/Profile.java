@@ -13,6 +13,10 @@ public class Profile implements Comparable {
     String dateModified;
     ArrayList<Game> games = new ArrayList<>();
 
+    public Profile(){
+
+    }
+
     public Profile(int id, String handle, String avatar, String dateCreated, String dateModified) {
         this.id = id;
         this.handle = handle;

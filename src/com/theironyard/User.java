@@ -12,6 +12,10 @@ public class User implements Comparable {
     String password;
     ArrayList<Profile> profiles = new ArrayList<>();
 
+    public User(String name, String password){
+
+    }
+
     public User(int id, String name, String password) {
         this.id = id;
         this.name = name;
