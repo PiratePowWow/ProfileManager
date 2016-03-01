@@ -10,7 +10,7 @@ public class User implements Comparable {
     int id;
     String name;
     String password;
-    ArrayList<Profile> profiles = new ArrayList<>();
+    //ArrayList<Profile> profiles = new ArrayList<>();
 
     public User(String name, String password){
 
@@ -27,7 +27,7 @@ public class User implements Comparable {
         return "User{" +
                 "name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", profiles=" + profiles +
+                ", profiles=" +
                 '}';
     }
 
@@ -53,12 +53,6 @@ public class User implements Comparable {
         this.password = password;
     }
 
-    public ArrayList<Profile> getProfiles() {
-        return profiles;
-    }
-
-    public void setProfiles(ArrayList<Profile> profiles) {
-        this.profiles = profiles;
-    }
-
 }
+
+

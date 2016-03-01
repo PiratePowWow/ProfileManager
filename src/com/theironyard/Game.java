@@ -13,9 +13,6 @@ public class Game implements Comparable{
         this.title = title;
         this.releaseDate = releaseDate;
     }
-    public Game(){
-
-    }
 
     @Override
     public String toString() {

@@ -1,19 +1,17 @@
 package com.theironyard;
-
 import spark.ModelAndView;
 import spark.Session;
 import spark.Spark;
 import spark.template.mustache.MustacheTemplateEngine;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
 public class Main {
-    public static HashMap<String, Game> allGames = new HashMap<>();
-    public static HashMap<String, User> allUsersMap = new HashMap<>();
-    public static ArrayList<User> allUsers = new ArrayList<>();
+//    public static HashMap<String, Game> allGames = new HashMap<>();
+//    public static HashMap<String, User> allUsersMap = new HashMap<>();
+//    public static ArrayList<User> allUsers = new ArrayList<>();
     public static Connection startConnection() throws SQLException {
         Connection conn = DriverManager.getConnection("jdbc:h2:./main");
         return conn;
@@ -132,36 +130,39 @@ public class Main {
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+        Connection conn = startConnection();
+        createTables(conn);
+
 
         Spark.staticFileLocation("/public");
         //add test User, Game, and Profile objects
-        allUsersMap.put("Jimmy",new User("Jimmy", "Pee"));
-        allUsersMap.put("James",new User("James", "Jones"));
-        allUsersMap.put("Martha",new User("Martha", "Stewart"));
-        allGames.put("Batman",new Game(1,"Batman", "2010"));
-        allGames.put("Metal Gear Solid",new Game(2,"Metal Gear Solid", "2012"));
-        allGames.put("Super Mario",new Game(3,"Super Mario", "1985"));
-        allUsersMap.get("Jimmy").getProfiles().add(new Profile(1,"salty", "image1", "2016", "2017"));
-        allUsersMap.get("Jimmy").getProfiles().add(new Profile(2,"scary", "image2", "2016", "2017"));
-        allUsersMap.get("James").getProfiles().add(new Profile(3,"dominator", "image3", "2016", "2017"));
-        allUsersMap.get("James").getProfiles().add(new Profile(4,"twinkletoes", "image4", "2016", "2017"));
-        allUsersMap.get("Martha").getProfiles().add(new Profile(5,"sweetie", "image5", "2016", "2017"));
-        allUsersMap.get("Martha").getProfiles().add(new Profile(6,"saucy", "image6", "2016", "2017"));
-        allUsersMap.get("Jimmy").getProfiles().get(0).getGames().add(allGames.get("Batman"));
-        allUsersMap.get("Jimmy").getProfiles().get(0).getGames().add(allGames.get("Super Mario"));
-        allUsersMap.get("Jimmy").getProfiles().get(1).getGames().add(allGames.get("Super Mario"));
-        allUsersMap.get("Jimmy").getProfiles().get(1).getGames().add(allGames.get("Metal Gear Solid"));
-        allUsersMap.get("James").getProfiles().get(0).getGames().add(allGames.get("Batman"));
-        allUsersMap.get("James").getProfiles().get(0).getGames().add(allGames.get("Super Mario"));
-        allUsersMap.get("James").getProfiles().get(1).getGames().add(allGames.get("Metal Gear Solid"));
-        allUsersMap.get("James").getProfiles().get(1).getGames().add(allGames.get("Batman"));
-        allUsersMap.get("Martha").getProfiles().get(0).getGames().add(allGames.get("Metal Gear Solid"));
-        allUsersMap.get("Martha").getProfiles().get(1).getGames().add(allGames.get("Super Mario"));
-        for(User user: allUsersMap.values()){
-            allUsers.add(user);
-        }
-        Collections.sort(allUsers);
+//        insertUser(conn,"Jimmy", "Pee");
+//        insertUser(conn,"James", "Jones");
+//        insertUser(conn,"Martha", "Stewart");
+//        insertGame(conn, 1,"Batman", "2010");
+//        allGames.put("Metal Gear Solid",new Game(2,"Metal Gear Solid", "2012"));
+//        allGames.put("Super Mario",new Game(3,"Super Mario", "1985"));
+//        allUsersMap.get("Jimmy").getProfiles().add(new Profile(1,"salty", "image1", "2016", "2017"));
+//        allUsersMap.get("Jimmy").getProfiles().add(new Profile(2,"scary", "image2", "2016", "2017"));
+//        allUsersMap.get("James").getProfiles().add(new Profile(3,"dominator", "image3", "2016", "2017"));
+//        allUsersMap.get("James").getProfiles().add(new Profile(4,"twinkletoes", "image4", "2016", "2017"));
+//        allUsersMap.get("Martha").getProfiles().add(new Profile(5,"sweetie", "image5", "2016", "2017"));
+//        allUsersMap.get("Martha").getProfiles().add(new Profile(6,"saucy", "image6", "2016", "2017"));
+//        allUsersMap.get("Jimmy").getProfiles().get(0).getGames().add(allGames.get("Batman"));
+//        allUsersMap.get("Jimmy").getProfiles().get(0).getGames().add(allGames.get("Super Mario"));
+//        allUsersMap.get("Jimmy").getProfiles().get(1).getGames().add(allGames.get("Super Mario"));
+//        allUsersMap.get("Jimmy").getProfiles().get(1).getGames().add(allGames.get("Metal Gear Solid"));
+//        allUsersMap.get("James").getProfiles().get(0).getGames().add(allGames.get("Batman"));
+//        allUsersMap.get("James").getProfiles().get(0).getGames().add(allGames.get("Super Mario"));
+//        allUsersMap.get("James").getProfiles().get(1).getGames().add(allGames.get("Metal Gear Solid"));
+//        allUsersMap.get("James").getProfiles().get(1).getGames().add(allGames.get("Batman"));
+//        allUsersMap.get("Martha").getProfiles().get(0).getGames().add(allGames.get("Metal Gear Solid"));
+//        allUsersMap.get("Martha").getProfiles().get(1).getGames().add(allGames.get("Super Mario"));
+//        for(User user: allUsersMap.values()){
+//            allUsers.add(user);
+//        }
+//        Collections.sort(allUsers);
 
         Spark.init();
         Spark.get(
@@ -192,7 +193,7 @@ public class Main {
                     if (modifyUser){
                         modifyAccountButton = false;
                     }
-                    User userView = allUsers.get(userIndexNum);
+                    User userView = selectUsers(conn).get(userIndexNum);
                     if(user!=null) {
                         if (userView.getName().equals(user.getName())) {
                             modifyProfile = true;
@@ -204,12 +205,12 @@ public class Main {
                     }
                     m.put("editProfile", editProfile);
                     m.put("modifyAccountButton", modifyAccountButton);
-                    m.put("profiles", userView.getProfiles());
+                    m.put("profiles", selectProfiles(conn, userView.id));
                     m.put("modifyProfile", modifyProfile);
                     m.put("modifyUser", modifyUser);
                     m.put("userView", userView);
                     m.put("previous", (userIndexNum -1 >= 0)? userIndexNum -1:null);
-                    m.put("next", (userIndexNum + 1 < allUsers.size())? userIndexNum+1:null);
+                    m.put("next", (userIndexNum + 1 < selectUsers(conn).size())? userIndexNum+1:null);
                     return new ModelAndView(m, "home.html");
                 }),
                 new MustacheTemplateEngine()
@@ -220,10 +221,10 @@ public class Main {
                         String userName = request.queryParams("userName");
                         String password = request.queryParams("password");
                         if (userName != null && password != null) {
-                            if (allUsersMap.get(userName)!=null) {
-                                if (allUsersMap.get(userName).getPassword().equals(password)) {
+                            if (selectUser(conn, userName)!=null) {
+                                if (selectUser(conn, userName).getPassword().equals(password)) {
                                     Session session = request.session();
-                                    session.attribute("userName", allUsersMap.get(userName));
+                                    session.attribute("userName", selectUser(conn, userName));
                                 } else {
                                     Spark.halt(401, "User not authenticated");
                                 }
@@ -250,22 +251,10 @@ public class Main {
                     User user = getUserFromSession(request.session());
                     String userName = request.queryParams("userName");
                     String password = request.queryParams("password");
-                    if (!userName.isEmpty()){
-                        allUsersMap.remove(user.getName());
-                        user.setName(userName);
-                        allUsersMap.put(user.getName(), user);
-                        allUsers = new ArrayList<User>();
-                        for(User each:allUsersMap.values()){
-                            allUsers.add(each);
-                        }
-                        Collections.sort(allUsers);
-                        Session session = request.session();
-                        session.attribute("userName", allUsersMap.get(userName));
-                    }
-                    if (!password.isEmpty()){
-                        User newPass = getUserFromSession(request.session());
-                        newPass.setPassword(password);
-                    }
+                    updateUser(conn, userName, password, user);
+                    user = selectUser(conn, (!userName.isEmpty()?userName:user.getName()));
+                    Session session = request.session();
+                    session.attribute("userName", user);
                     response.redirect("/");
                     return "";
                 })

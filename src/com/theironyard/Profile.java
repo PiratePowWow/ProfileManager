@@ -11,7 +11,7 @@ public class Profile implements Comparable {
     String avatar;
     String dateCreated;
     String dateModified;
-    ArrayList<Game> games = new ArrayList<>();
+    //ArrayList<Game> games = new ArrayList<>();
 
     public Profile(){
 
@@ -60,14 +60,6 @@ public class Profile implements Comparable {
 
     public void setDateModified(String dateModified) {
         this.dateModified = dateModified;
-    }
-
-    public ArrayList<Game> getGames() {
-        return games;
-    }
-
-    public void setGames(ArrayList<Game> games) {
-        this.games = games;
     }
 
     @Override

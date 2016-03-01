@@ -1,8 +1,5 @@
 package com.theironyard;
 import org.junit.Test;
-import com.theironyard.Main;
-import com.theironyard.User;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
