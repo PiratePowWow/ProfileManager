@@ -7,11 +7,13 @@ import java.util.HashMap;
  * Created by PiratePowWow on 2/25/16.
  */
 public class User implements Comparable {
+    int id;
     String name;
     String password;
     ArrayList<Profile> profiles = new ArrayList<>();
 
-    public User(String name, String password) {
+    public User(int id, String name, String password) {
+        this.id = id;
         this.name = name;
         this.password = password;
     }

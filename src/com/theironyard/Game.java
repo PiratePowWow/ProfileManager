@@ -4,10 +4,12 @@ package com.theironyard;
  * Created by PiratePowWow on 2/25/16.
  */
 public class Game implements Comparable{
+    int id;
     String title;
     String releaseDate;
 
-    public Game(String title, String releaseDate) {
+    public Game(int id, String title, String releaseDate) {
+        this.id = id;
         this.title = title;
         this.releaseDate = releaseDate;
     }

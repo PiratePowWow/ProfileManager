@@ -6,17 +6,19 @@ import java.util.ArrayList;
  * Created by PiratePowWow on 2/25/16.
  */
 public class Profile implements Comparable {
+    int id;
     String handle;
     String avatar;
     String dateCreated;
     String dateModified;
     ArrayList<Game> games = new ArrayList<>();
 
-    public Profile(String handle, String avatar, String dateCreated) {
+    public Profile(int id, String handle, String avatar, String dateCreated, String dateModified) {
+        this.id = id;
         this.handle = handle;
         this.avatar = avatar;
         this.dateCreated = dateCreated;
-        this.dateModified = dateCreated;
+        this.dateModified = dateModified;
     }
 
     @Override
